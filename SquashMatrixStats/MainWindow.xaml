@@ -1,0 +1,42 @@
+﻿<Window x:Name="Squash_Stats" x:Class="SquashMatrixStats.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SquashMatrixStats"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="370.371" Width="725.975">
+    <Grid Margin="0,0,0,-5">
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="265" Margin="369,68,0,0" VerticalAlignment="Top" Width="328"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="265" Margin="21,68,0,0" VerticalAlignment="Top" Width="317"/>
+        <TextBox x:Name="PlayerNumber" HorizontalAlignment="Left" Height="23" Margin="110,41,0,0" TextWrapping="Wrap" Text="7539" VerticalAlignment="Top" Width="120" MouseDown="PlayerNumber_MouseDown" KeyDown="PlayerNumber_KeyDown"/>
+        <Button x:Name="GetStats_Button" Content="Get stats" HorizontalAlignment="Left" Margin="235,41,0,0" VerticalAlignment="Top" Width="75" Click="GetStats_Button_Click" Height="23"/>
+        <Label x:Name="label" Content="Squash Matrix Stats!" HorizontalAlignment="Left" Margin="157,10,0,0" VerticalAlignment="Top" Width="216"/>
+        <Label x:Name="HighestMatrixLabel_static" Content="Highest matrix" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="89"/>
+        <Label x:Name="LowestMatrixLabel_static" Content="Lowest matrix" HorizontalAlignment="Left" Margin="32,116,0,0" VerticalAlignment="Top" Width="89"/>
+        <Label x:Name="AllTimeMostPlayedLabel_static" Content="All time most played" HorizontalAlignment="Left" Margin="32,142,0,0" VerticalAlignment="Top" Width="122"/>
+        <Label x:Name="UniquePlayersPlayedLabel_static" Content="Unique players played" HorizontalAlignment="Left" Margin="32,173,0,0" VerticalAlignment="Top" Width="129"/>
+        <Label x:Name="LongestWinStreakLabel_static" Content="Longest win streak" HorizontalAlignment="Left" Margin="32,204,0,0" VerticalAlignment="Top" Width="111"/>
+        <Label x:Name="LongestLoseStreakLabel_static" Content="Longest lose streak" HorizontalAlignment="Left" Margin="32,235,0,0" VerticalAlignment="Top" Width="111"/>
+        <Label x:Name="BestWinLabel_static" Content="Best win" HorizontalAlignment="Left" Margin="397,85,0,0" VerticalAlignment="Top" Width="89"/>
+        <Label x:Name="HighestMatrixLabel" Content="" HorizontalAlignment="Left" Margin="170,85,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LowestMatrixLabel" Content="" HorizontalAlignment="Left" Margin="170,111,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="AllTimeMostPlayedLabel" Content="" HorizontalAlignment="Left" Margin="170,142,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="UniquePlayersPlayedLabel" Content="" HorizontalAlignment="Left" Margin="170,173,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LongestWinStreakLabel" Content="" HorizontalAlignment="Left" Margin="170,204,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LongestLoseStreakLabel" Content="" HorizontalAlignment="Left" Margin="170,235,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WorstLossLabel_static" Content="Worst loss" HorizontalAlignment="Left" Margin="397,142,0,0" VerticalAlignment="Top" Width="89"/>
+        <Label x:Name="BestWinRecentLabel_static" Content=" - in the last 12 months" HorizontalAlignment="Left" Margin="397,116,0,0" VerticalAlignment="Top" Width="112" FontSize="10"/>
+        <Label x:Name="BestWinLabel" Content="" HorizontalAlignment="Left" Margin="528,85,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="WorstLossRecentLabel_static" Content=" - in the last 12 months" HorizontalAlignment="Left" Margin="397,175,0,0" VerticalAlignment="Top" Width="112" FontSize="10"/>
+        <Label x:Name="WorstLossLabel" Content="" HorizontalAlignment="Left" Margin="528,142,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="BestWinRecentLabel" Content="" HorizontalAlignment="Left" Margin="528,116,0,0" VerticalAlignment="Top" FontSize="10"/>
+        <Label x:Name="WorstLossRecentLabel" Content="" HorizontalAlignment="Left" Margin="528,173,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="MatrixDelta3Label_static" Content="Matrix delta, 3 months" HorizontalAlignment="Left" Margin="32,266,0,0" VerticalAlignment="Top" Width="129"/>
+        <Label x:Name="MatrixDelta12Label_static" Content="Matrix delta, 12 months" HorizontalAlignment="Left" Margin="32,297,0,0" VerticalAlignment="Top" Width="136"/>
+        <Label x:Name="MatrixDelta3Label" Content="" HorizontalAlignment="Left" Margin="170,266,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="MatrixDelta12Label" Content="" HorizontalAlignment="Left" Margin="173,297,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="JBPbutton" Content="Joukbet Predictor" HorizontalAlignment="Left" Margin="387,23,0,0" VerticalAlignment="Top" Width="141" Click="JBPbutton_Click" Height="33"/>
+
+    </Grid>
+</Window>

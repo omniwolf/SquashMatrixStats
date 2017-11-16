@@ -1,0 +1,37 @@
+﻿<Window x:Class="SquashMatrixStats.JoukbetPredictor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SquashMatrixStats"
+        mc:Ignorable="d"
+        Title="Joukbet™ Predictor" Height="440.741" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="247*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="Player1Input" HorizontalAlignment="Left" Height="23" Margin="10,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="Player2Input" HorizontalAlignment="Left" Height="23" Margin="116.794,47,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <Label x:Name="label" Content="Player 1" HorizontalAlignment="Left" Margin="1,23,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="label_Copy" Content="Player 2" HorizontalAlignment="Left" Margin="138,23,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Button x:Name="GoButton" Content="Go" HorizontalAlignment="Left" Margin="89.794,47,0,0" VerticalAlignment="Top" Width="22" Height="23" Click="GoButton_Click" Grid.Column="1"/>
+        <Label x:Name="MatchesWonLabel_static" Content="Matches won:" HorizontalAlignment="Left" Margin="59.794,75,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon1Label" Content="" HorizontalAlignment="Left" Margin="22,99,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon2Label" Content="" HorizontalAlignment="Left" Margin="163,99,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="label1" Content="&quot; Well folks, when you are 52% right that means you are 48% wrong.&quot;" HorizontalAlignment="Left" Margin="15,5,0,0" VerticalAlignment="Top" FontSize="8" Grid.ColumnSpan="2" Width="254"/>
+        <Label x:Name="MatchesWon30_static" Content="3-0 matches won:" HorizontalAlignment="Left" Margin="49,129,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon31_static" Content="3-1 matches won:" HorizontalAlignment="Left" Margin="49,192,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon32_static" Content="3-2 matches won:" HorizontalAlignment="Left" Margin="49,249,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon301Label" Content="" HorizontalAlignment="Left" Margin="22,156,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon311Label" Content="" HorizontalAlignment="Left" Margin="22,220,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon321Label" Content="" HorizontalAlignment="Left" Margin="22,282,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon302Label" Content="" HorizontalAlignment="Left" Margin="163,161,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon312Label" Content="" HorizontalAlignment="Left" Margin="163,223,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="MatchesWon322Label" Content="" HorizontalAlignment="Left" Margin="163,280,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="LikelinessToWinLabel_static" Content="Likeliness to win if playing today:" HorizontalAlignment="Left" Margin="10,315,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="LikelinessToWin1Label" Content="" HorizontalAlignment="Left" Margin="22,346,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label x:Name="LikelinessToWin2Label" Content="" HorizontalAlignment="Left" Margin="163,346,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+
+    </Grid>
+</Window>
