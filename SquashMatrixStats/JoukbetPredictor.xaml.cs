@@ -133,7 +133,9 @@ namespace SquashMatrixStats {
                 }
             }
 
-            // next let's use their current ratings to give modify the score
+            /***********************
+             * Matrix rating scoring
+             * *********************/
             double player2Rating = MatrixInterface.getCurrentRating(Player2Input.Text);
             if (player2Rating == 0) {
                 MessageBox.Show("Cannot find player 2's matrix?  are you sure this player exists?");
