@@ -149,31 +149,25 @@ namespace SquashMatrixStats {
                 rating1Score = 1;
                 Debug.Print("ratingdiff is bigger than 40 (p1 higher), so rating1score is " + rating1Score.ToString());
             }
-            else if(ratingDifferential > 30) {  // less than 40, greater than 30
-                rating1Score = (((ratingDifferential - 30) / 2) + 95) / 100;
-                rating2Score = 1 - rating1Score;
-                Debug.Print("ratingDiff is 30-40 (p1 higher), so rating should be between 0.95 and 1: " + rating1Score.ToString());
-            }
+            
             else if(ratingDifferential > 0) {
-                rating1Score = (((ratingDifferential / 30) * 45) + 50) / 100;
+                // y = -x^2/80 + 7x/4 + 50
+                rating1Score = (-(ratingDifferential * ratingDifferential / 80) + ((7 * ratingDifferential) / 4) + 50)/100;
                 rating2Score = 1 - rating1Score;
-                Debug.Print("ratingDiff is between 0 and 30 (p1 higher), so rating1score should be between 0.5 and 0.95: " + rating1Score);
+                Debug.Print("ratingDiff is between 0 and 30 (p1 higher), rating1score is: " + rating1Score);
             }
             else if(ratingDifferential < -40) {  // player 2 is more than 40 above
                 rating2Score = 1;
                 Debug.Print("ratingdiff is less than -40 (p2 higher), so rating2score is " + rating2Score.ToString());
 
             }
-            else if(ratingDifferential < -30) {  // less than 40, greater than 30
-                rating2Score = (((System.Math.Abs(ratingDifferential) - 30) / 2) + 95) / 100;
-                rating1Score = 1 - rating2Score;
-                Debug.Print("ratingDiff is -30 and -40 (p2 higher), so rating should be between 0.95 and 1: " + rating2Score.ToString());
 
-            }
             else if(ratingDifferential < 0) {  // player 2 rating is between 0 and 30 higher
-                rating2Score = (((System.Math.Abs(ratingDifferential) / 30) * 45) + 50) / 100;
+                decimal negRatingDiff = System.Math.Abs(ratingDifferential);
+                rating2Score = (-(negRatingDiff * negRatingDiff / 80) + ((7 * negRatingDiff) / 4) + 50) / 100;
                 rating1Score = 1 - rating2Score;
-                Debug.Print("ratingDiff is between 0 and -30 (p2 higher), so rating2score should be between 0.5 and 0.95: " + rating2Score);
+
+                Debug.Print("ratingDiff is between 0 and -40 (p2 higher), rating2Score is: " + rating2Score);
 
             }
 
