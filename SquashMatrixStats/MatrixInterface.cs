@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net;
 using System.IO;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 
 
@@ -491,9 +492,42 @@ namespace SquashMatrixStats {
             return HTMLlineObj;
         }
 
-        // pull from the player summary page their current rating.  hopefully should be light on the website
-        // probably should get other stuff from the page, like the player name, etc
-        static public double getCurrentRating(string playerID) {
+        public class squashPlayer {
+            private List<string> _clubs;
+            private List<string> _teams;
+            private List<Result> _results;
+
+            public string name { get; set; }
+            public decimal rating { get; set; }
+            public List<string> teams {
+                get { return _teams; }
+                set { _teams = value; }
+            }
+            public void addTeam (string team) {
+                _teams.Add(team);
+            }
+            public string division { get; set; }
+            public string eventRegion { get; set; }
+            public string group { get; set; }
+            public List<string> clubs {
+                get { return _clubs; }
+                set { _clubs = value; }
+            }
+            public void addClub(string club) {
+                _clubs.Add(club);
+            }
+            public BitmapImage picture{ get; set; }
+            public List<Result> results {
+                get { return _results; }
+                set { _results = value; }
+            }
+            public void addResult (Result res) {
+                _results.Add(res);
+            }
+        }
+
+        // pull from the player summary page and..
+        static public double parsePlayerSummary(string playerID) {
 
             string PageSource;
             string url = "http://squashmatrix.com/Home/Player/" + playerID;
