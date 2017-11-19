@@ -38,6 +38,13 @@ namespace SquashMatrixStats
         }
 
         private void GetStats_Button_Click(object sender, RoutedEventArgs e) {
+
+            if(PlayerNumber.Text == "9589") {
+                ImageBrush myBrush = new ImageBrush();
+                myBrush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/kenneth.png"));
+                mainWin.Background = myBrush;
+            }
+
             List<Result> allResults = MatrixInterface.getResults(PlayerNumber.Text);
             if (allResults == null || allResults.Count == 0 ) {
                 MessageBox.Show("Squash matrix returned no results, wrong player name or maybe you've been blocked!");
