@@ -14,7 +14,20 @@ using System.Windows.Media.Imaging;
 
 namespace SquashMatrixStats {
     public class MatrixInterface {
-        static public List<Result> getResults(string playerID) {
+
+        private string username = "";
+        private string password = "";
+        private bool loginSuccessful = false;
+        private HttpClient client = new HttpClient();
+
+        public void setUser(string user) {
+            username = user;
+        }
+        public void setPass(string pass) {
+            password = pass;
+        }
+
+        public async Task<List<Result>> getResults(string playerID) {
             Debug.Print("button clicked!");
             bool FoundTbody = false;
             bool FoundStartTR = false;
@@ -24,26 +37,19 @@ namespace SquashMatrixStats {
             string PageSource;
             string url = "http://www.squashmatrix.com/Home/PlayerResults/" + playerID + "?max=0";
 
-            // this doesn't seem to work.  need to implement cookies and stuff i think.
-            /*MessageBoxResult result = MessageBox.Show("Do you want to try and login first?", "Login before pulling data?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes) {
-                loginToMatrix();
-            }*/
-
-            // download the full results page.   really need to put this in a thread so it doesn't freeze the UI
-            using(HttpClient client = new HttpClient()) {
-                using(HttpResponseMessage response = client.GetAsync(url).Result) {
-                    using(HttpContent content = response.Content) {
-                        PageSource = content.ReadAsStringAsync().Result;
-                        //Debug.Print(PageSource);
-                    }
+            if(!loginSuccessful) {
+                MessageBoxResult result = MessageBox.Show("Do you want to try and login first?", "Login before pulling data?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(result == MessageBoxResult.Yes) {
+                    loginToMatrix();
                 }
             }
 
+            PageSource = await client.GetStringAsync(url);
             Debug.Print("webpage gotted, " + url);
 
             if (PageSource == "Forbidden") {
-                MessageBox.Show("You have been forbidden!  try again in an hour, or change your IP address");
+                MessageBox.Show("You have been forbidden!  try again in an hour, or change your IP address, or login via the app!");
+                Debug.Print("PageSource = " + PageSource);
                 return null;
             }
 
@@ -319,33 +325,29 @@ namespace SquashMatrixStats {
             }
         }
 
-        // this doesn't work
-        static private void loginToMatrix() {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://www.squashmatrix.com/Account/LogOn");
-            string postData = "UserName=7539&Password=&RememberMe=false";
+        // this doesn't work.. or does it?
+        private async void loginToMatrix() {
 
-            byte[] send = Encoding.Default.GetBytes(postData);
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
-            req.ContentLength = send.Length;
-            req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-            req.Headers.Add("Accept-Encoding", "gzip, deflate");
-            req.Headers.Add("Accept-Language", "en-US,en;q=0.5");
-            //req.Connection = "keep-alive";
-            req.Headers.Add("Cookie", "__utma=165103165.32360631.1489490400.1510460139.1510491517.45; __utmz=165103165.1489490400.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmc=165103165; ASP.NET_SessionId=usatmicqgc1o1vtq2hbjp1hu; GroupId=0; .ASPXAUTH=35CF2BCC561BDB91DB3A9ED2AF7EBAC9F14F853990D60008873BA6EBC17A28B95F76905D0A36F2C605FF913F1FFA480965ECA73C4FC4CCE37C0D5D6E674F88CF9EC92923A32872B524984D1A47B34DE9250F4F668A856208E3CBA06F1CC5FCA2; __utmb=165103165.1.10.1510491517; __utmt=1");
-            req.Referer = "http://www.squashmatrix.com/Account/LogOn";
-            req.Headers.Add("Upgrade-Insecure-Requests", "1");
-            req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0";
+            Login LoginForm = new Login(this);
+            LoginForm.ShowDialog();
 
+        Dictionary<string, string> values = new Dictionary<string, string> {
+            { "UserName", username },
+            { "Password", password },
+            { "RememberMe", "false" }
+        };
 
-            Stream sout = req.GetRequestStream();
-            sout.Write(send, 0, send.Length);
-            sout.Flush();
-            sout.Close();
+            var content = new FormUrlEncodedContent(values);
+            var response = await client.PostAsync("https://www.squashmatrix.com/Account/LogOn", content);
+            var responseString = await response.Content.ReadAsStringAsync();
 
-            WebResponse res = req.GetResponse();
-            StreamReader sr = new StreamReader(res.GetResponseStream());
-            string returnvalue = sr.ReadToEnd();
+            if(responseString.Contains("The details you provided are incorrect")) {
+                MessageBox.Show("user/pass incorrect!  will continue to load data unauthenticated, but you will likely be blocked pretty quickly until you put a correct user/pass in");
+                client = new HttpClient();
+            }
+            else {
+                loginSuccessful = true;
+            }
         }
 
 
@@ -447,7 +449,7 @@ namespace SquashMatrixStats {
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        static private HTMLline parseLine(string line) {
+        private HTMLline parseLine(string line) {
             // let's try and parse this thing.  just.. geeing myself up here
             line = line.Trim();
             HTMLline HTMLlineObj = new HTMLline();
@@ -526,20 +528,20 @@ namespace SquashMatrixStats {
             }
         }
 
-        // pull from the player summary page and..
-        static public double parsePlayerSummary(string playerID) {
+        // pull from the player summary page and grab as much data as we can
+        public async Task<double> parsePlayerSummary(string playerID) {
 
             string PageSource;
             string url = "http://squashmatrix.com/Home/Player/" + playerID;
 
-            using(HttpClient client = new HttpClient()) {
-                using(HttpResponseMessage response = client.GetAsync(url).Result) {
-                    using(HttpContent content = response.Content) {
-                        PageSource = content.ReadAsStringAsync().Result;
-                        //Debug.Print(PageSource);
-                    }
+            if(!loginSuccessful) {
+                MessageBoxResult result = MessageBox.Show("Do you want to try and login first?", "Login before pulling data?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(result == MessageBoxResult.Yes) {
+                    loginToMatrix();
                 }
             }
+
+            PageSource = await client.GetStringAsync(url);
 
             using(StringReader reader = new StringReader(PageSource)) {
                 string line;

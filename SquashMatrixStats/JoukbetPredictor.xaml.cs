@@ -38,12 +38,14 @@ namespace SquashMatrixStats {
             mw = _mw;
         }
 
-        private void GoButton_Click(object sender, RoutedEventArgs e) {
+        private async void GoButton_Click(object sender, RoutedEventArgs e) {
 
             // this is a max of how much the historic games contribute to the final score.
             decimal historyRatio = 0.25M;
 
-            List<Result> player1Results = MatrixInterface.getResults(Player1Input.Text);
+            List<Result> player1Results = await mw.matrixInt.getResults(Player1Input.Text);
+            //List<Result> player1Results = mw.matrixInt.squashPlayers[Player1Input.Text];
+
             if (player1Results == null || player1Results.Count == 0) {
                 Debug.Print("couldn't find player.. or something");
                 return;
@@ -136,7 +138,7 @@ namespace SquashMatrixStats {
             /***********************
              * Matrix rating scoring
              * *********************/
-            double player2Rating = MatrixInterface.getCurrentRating(Player2Input.Text);
+            double player2Rating = mw.matrixInt.parsePlayerSummary(Player2Input.Text);
             if (player2Rating == 0) {
                 MessageBox.Show("Cannot find player 2's matrix?  are you sure this player exists?");
                 return;
@@ -171,8 +173,9 @@ namespace SquashMatrixStats {
 
             }
 
-            decimal normalisedHistoryScore = 0;
-            if (history1Score != 0 || history2Score != 0) {  // don't divide by 0!
+            decimal normalisedHistoryScore = 0;  // player 1.  player 2 will be the reciprocal (eg 1-normalisedHistoryScore)
+            if (history2Score == 0) { normalisedHistoryScore = 1; }
+            else if (history1Score != 0 || history2Score != 0) {  // don't divide by 0!
                 normalisedHistoryScore = history1Score / (history1Score + history2Score);
             }
             Debug.Print("normalised history score is now " + (normalisedHistoryScore*100).ToString("###.##") + "%");

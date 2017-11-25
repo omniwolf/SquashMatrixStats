@@ -26,9 +26,12 @@ namespace SquashMatrixStats
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public MatrixInterface matrixInt;
         public MainWindow()
         {
             InitializeComponent();
+            matrixInt = new MatrixInterface();
         }
 
         // i wish this worked
@@ -37,7 +40,7 @@ namespace SquashMatrixStats
             PlayerNumber.SelectAll();
         }
 
-        private void GetStats_Button_Click(object sender, RoutedEventArgs e) {
+        private async void GetStats_Button_Click(object sender, RoutedEventArgs e) {
 
             if(PlayerNumber.Text == "9589") {
                 ImageBrush myBrush = new ImageBrush();
@@ -45,7 +48,25 @@ namespace SquashMatrixStats
                 mainWin.Background = myBrush;
             }
 
-            List<Result> allResults = MatrixInterface.getResults(PlayerNumber.Text);
+            List<Result> allResults = await matrixInt.getResults(PlayerNumber.Text);
+
+            //,List<Result> allResults = null;
+            //int resultsLoopCount = 0;
+            //do {  // wait until we have values in the dictionary, hopefully the one we want.
+            //    if(!matrixInt.squashPlayers.ContainsKey(PlayerNumber.Text)) {
+            //        System.Threading.Thread.Sleep(1000);
+            //        resultsLoopCount++;
+            //        Debug.Print("resultsLoopCount: " + resultsLoopCount);
+            //    }
+            //    else {
+            //        allResults = matrixInt.squashPlayers[PlayerNumber.Text];
+            //    }
+            //    if (resultsLoopCount > 30) {
+            //        MessageBox.Show("we have waited over 10 seconds for squash website to send us data.  too long!  bailing");
+            //        return;
+            //    }
+            //} while(allResults == null);
+
             if (allResults == null || allResults.Count == 0 ) {
                 MessageBox.Show("Squash matrix returned no results, wrong player name or maybe you've been blocked!");
                 return;
@@ -207,10 +228,11 @@ namespace SquashMatrixStats
         /// </summary>
         /// <param name="match"></param>
         /// <returns></returns>
-        private double getOpponentRatingAdjust(Result match) {
+        private async Task<double> getOpponentRatingAdjust(Result match) {
             Debug.Print("GetOpponentRatingAdjust: comparing " + match.opponentID + " with " + PlayerNumber.Text);
-            List<Result> opponentResults = MatrixInterface.getResults(match.opponentID);
-            foreach (Result opponentRes in opponentResults) {
+            List<Result> opponentResults = await matrixInt.getResults(match.opponentID);
+            //List<Result> opponentResults = matrixInt.squashPlayers[match.opponentID];
+            foreach(Result opponentRes in opponentResults) {
                 Debug.Print(opponentRes.opponentID + " <> " + PlayerNumber.Text + "   |   " + opponentRes.date + " <> " + match.date);
                 if ((opponentRes.opponentID == PlayerNumber.Text) && (opponentRes.date == match.date)) {
                     // OK, we've found the result!
