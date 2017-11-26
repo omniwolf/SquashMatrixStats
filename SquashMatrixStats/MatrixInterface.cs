@@ -18,7 +18,19 @@ namespace SquashMatrixStats {
         private string username = "";
         private string password = "";
         private bool loginSuccessful = false;
-        private HttpClient client = new HttpClient();
+        CookieContainer cookieJar = new CookieContainer();
+        HttpClient client;
+
+        public MatrixInterface() {
+            HttpClientHandler handler = new HttpClientHandler() {
+                CookieContainer = cookieJar,
+                UseCookies = true,
+                UseDefaultCredentials = false
+            };
+            client = new HttpClient(handler) {
+                BaseAddress = new Uri("https://www.squashmatrix.com/Account/LogOn")
+            };
+        }
 
         public void setUser(string user) {
             username = user;
@@ -40,7 +52,7 @@ namespace SquashMatrixStats {
             if(!loginSuccessful) {
                 MessageBoxResult result = MessageBox.Show("Do you want to try and login first?", "Login before pulling data?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if(result == MessageBoxResult.Yes) {
-                    loginToMatrix();
+                    loginToMatrix(playerID);
                 }
             }
 
@@ -326,9 +338,9 @@ namespace SquashMatrixStats {
         }
 
         // this doesn't work.. or does it?
-        private async void loginToMatrix() {
+        private async void loginToMatrix(string defaultUser) {
 
-            Login LoginForm = new Login(this);
+            Login LoginForm = new Login(this, defaultUser);
             LoginForm.ShowDialog();
 
         Dictionary<string, string> values = new Dictionary<string, string> {
@@ -339,15 +351,25 @@ namespace SquashMatrixStats {
 
             var content = new FormUrlEncodedContent(values);
             var response = await client.PostAsync("https://www.squashmatrix.com/Account/LogOn", content);
+
             var responseString = await response.Content.ReadAsStringAsync();
+
+            Uri squashURI = new Uri("http://www.squashmatrix.com/");
+            var responseCookies = cookieJar.GetCookies(squashURI);
+            foreach(Cookie cookie in responseCookies) {
+                Debug.Print("cookie: " + cookie.Name + " and value: " + cookie.Value);
+            }
+
+            //Debug.Print("response header: " + response.Headers.GetValues("Set-cookie").First());
 
             if(responseString.Contains("The details you provided are incorrect")) {
                 MessageBox.Show("user/pass incorrect!  will continue to load data unauthenticated, but you will likely be blocked pretty quickly until you put a correct user/pass in");
-                client = new HttpClient();
+                //client = new HttpClient();
             }
             else {
                 loginSuccessful = true;
             }
+           // Debug.Print("client cookies? " + client.DefaultRequestHeaders)
         }
 
 
@@ -532,12 +554,12 @@ namespace SquashMatrixStats {
         public async Task<double> parsePlayerSummary(string playerID) {
 
             string PageSource;
-            string url = "http://squashmatrix.com/Home/Player/" + playerID;
+            string url = "https://www.squashmatrix.com/Home/Player/" + playerID;
 
             if(!loginSuccessful) {
                 MessageBoxResult result = MessageBox.Show("Do you want to try and login first?", "Login before pulling data?", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if(result == MessageBoxResult.Yes) {
-                    loginToMatrix();
+                    loginToMatrix(playerID);
                 }
             }
 

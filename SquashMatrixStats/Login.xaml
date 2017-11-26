@@ -1,17 +1,17 @@
-﻿<Window x:Class="SquashMatrixStats.Login"
+﻿<Window x:Name="LoginWindow" x:Class="SquashMatrixStats.Login"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SquashMatrixStats"
         mc:Ignorable="d"
-        Title="Login" Height="197.355" Width="311.64">
+        Title="Login" Height="197.355" Width="311.64" Loaded="Login_Loaded">
     <Grid Margin="0,0,-8,-1">
         <Label x:Name="UserLabel_static" Content="Username" HorizontalAlignment="Left" Margin="47,41,0,0" VerticalAlignment="Top"/>
         <Label x:Name="PassLabel_static" Content="Password" HorizontalAlignment="Left" Margin="47,72,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="UserInput" HorizontalAlignment="Left" Height="23" Margin="131,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="PassInput" HorizontalAlignment="Left" Height="23" Margin="131,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="UserInput" HorizontalAlignment="Left" Height="23" Margin="131,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="1"/>
         <Button x:Name="button" Content="Login!" HorizontalAlignment="Left" Height="43" Margin="131,108,0,-51" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+        <PasswordBox x:Name="PassInput" HorizontalAlignment="Left" Margin="131,72,0,0" VerticalAlignment="Top" Width="120" Height="26" TabIndex="2"/>
 
     </Grid>
 </Window>

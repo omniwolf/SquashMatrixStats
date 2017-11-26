@@ -138,7 +138,7 @@ namespace SquashMatrixStats {
             /***********************
              * Matrix rating scoring
              * *********************/
-            double player2Rating = mw.matrixInt.parsePlayerSummary(Player2Input.Text);
+            double player2Rating = await mw.matrixInt.parsePlayerSummary(Player2Input.Text);
             if (player2Rating == 0) {
                 MessageBox.Show("Cannot find player 2's matrix?  are you sure this player exists?");
                 return;
